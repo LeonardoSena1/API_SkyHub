@@ -1,0 +1,12 @@
+C:\Users\leona\source\repos\API SkyHub\API_SkyHub\API_SkyHub\bin\Debug\API_SkyHub.exe.config
+C:\Users\leona\source\repos\API SkyHub\API_SkyHub\API_SkyHub\bin\Debug\API_SkyHub.exe
+C:\Users\leona\source\repos\API SkyHub\API_SkyHub\API_SkyHub\bin\Debug\API_SkyHub.pdb
+C:\Users\leona\source\repos\API SkyHub\API_SkyHub\API_SkyHub\bin\Debug\Newtonsoft.Json.dll
+C:\Users\leona\source\repos\API SkyHub\API_SkyHub\API_SkyHub\bin\Debug\RestSharp.dll
+C:\Users\leona\source\repos\API SkyHub\API_SkyHub\API_SkyHub\bin\Debug\Newtonsoft.Json.xml
+C:\Users\leona\source\repos\API SkyHub\API_SkyHub\API_SkyHub\bin\Debug\RestSharp.xml
+C:\Users\leona\source\repos\API SkyHub\API_SkyHub\API_SkyHub\obj\Debug\API_SkyHub.csproj.CoreCompileInputs.cache
+C:\Users\leona\source\repos\API SkyHub\API_SkyHub\API_SkyHub\obj\Debug\API_SkyHub.csproj.CopyComplete
+C:\Users\leona\source\repos\API SkyHub\API_SkyHub\API_SkyHub\obj\Debug\API_SkyHub.exe
+C:\Users\leona\source\repos\API SkyHub\API_SkyHub\API_SkyHub\obj\Debug\API_SkyHub.pdb
+C:\Users\leona\source\repos\API SkyHub\API_SkyHub\API_SkyHub\obj\Debug\API_SkyHub.csprojAssemblyReference.cache
