@@ -50,6 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\AprovarPedidoStatus.cs" />
+    <Compile Include="Models\POST_CriarPedidoStatusNew.cs" />
     <Compile Include="Models\POST_ProdutosCompleto.cs" />
     <Compile Include="Models\POST_ProdutoSimples.cs" />
     <Compile Include="Models\PUT_Cabecario_Produto.cs" />

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using RestSharp;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using static API_SkyHub.Models.POST_ProdutosCompleto;
 
 namespace API_SkyHub
@@ -13,6 +14,7 @@ namespace API_SkyHub
             //InserirProdutoCompleto();
             //InserirProdutoSimples();
             //AlteracaoCabecario();
+            //CriarPedidoStatusNew();
         }
 
         public static string InserirProdutoCompleto()
@@ -176,6 +178,84 @@ namespace API_SkyHub
                                                                                             {
                                                                                                 NullValueHandling = NullValueHandling.Ignore
                                                                                             }), ParameterType.RequestBody); ;
+            IRestResponse response = client.Execute(request);
+
+            return string.Empty;
+        }
+
+        public static string CriarPedidoStatusNew()
+        {
+            var bodySend = new Models.POST_CriarPedidoStatusNew.RootObjects();
+            bodySend.order = new POST_CriarPedidoStatusNew.Order();
+            bodySend.order.channel = "Teste C#";
+            bodySend.order.items = new List<Models.POST_CriarPedidoStatusNew.Item>();
+            var item = new Models.POST_CriarPedidoStatusNew.Item();
+            item.id = "350";
+            item.qty = 1;
+            item.original_price = 70.0;
+            item.special_price = 69.9;
+            bodySend.order.items.Add(item);
+
+            bodySend.order.customer = new Models.POST_CriarPedidoStatusNew.Customer();
+            bodySend.order.customer.name = "Leonardo Sena";
+            bodySend.order.customer.email = "leonardo_sena1@hotmail.com";
+            bodySend.order.customer.date_of_birth = "1996-04-10";
+            bodySend.order.customer.gender = "male";
+            bodySend.order.customer.vat_number = "12312312309";
+            bodySend.order.customer.phones = new List<string>();
+            var celular = "11930104128";
+            bodySend.order.customer.phones.Add(celular);
+
+            bodySend.order.billing_address = new POST_CriarPedidoStatusNew.BillingAddress();
+            bodySend.order.billing_address.street = "Rua Teste C#";
+            bodySend.order.billing_address.number = 6420;
+            bodySend.order.billing_address.detail = "Ponto de referencia teste";
+            bodySend.order.billing_address.city = "Guarulhos";
+            bodySend.order.billing_address.region = "UF";
+            bodySend.order.billing_address.country = "BR";
+            bodySend.order.billing_address.postcode = "9000000";
+
+            bodySend.order.shipping_address = new POST_CriarPedidoStatusNew.ShippingAddress();
+            bodySend.order.shipping_address.street = "Rua Teste C#";
+            bodySend.order.shipping_address.number = 6420;
+            bodySend.order.shipping_address.detail = "Ponto de referencia teste";
+            bodySend.order.shipping_address.city = "Guarulhos";
+            bodySend.order.shipping_address.region = "UF";
+            bodySend.order.shipping_address.country = "BR";
+            bodySend.order.shipping_address.postcode = "9000000";
+
+            bodySend.order.shipping_method = "Transportadora";
+            bodySend.order.estimated_delivery = "2020-06-26";
+            bodySend.order.shipping_cost = 5;
+            bodySend.order.interest = 0;
+            bodySend.order.discount = 0;
+
+            var client = new RestClient("https://api.skyhub.com.br/orders ");
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("X-User-Email", "benjamim@srmidia.com.br");
+            request.AddHeader("x-Api-Key", "kKkPwJKVpSRg7mNF93dM");
+            request.AddHeader("x-accountmanager-key", "vd4MLTDndq");
+            request.AddHeader("Accept", "application/json;charset=UTF-8");
+            request.AddHeader("Content-Type", "application/json");
+            request.AddParameter("application/json,text/plain", JsonConvert.SerializeObject(bodySend, Newtonsoft.Json.Formatting.None,
+                             new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }), ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+
+            return string.Empty;
+        }
+
+        public static string AprovarStatusPedido()
+        {
+            var client = new RestClient("https://api.skyhub.com.br/orders/Marketplace-1589895935896/approval");
+            client.Timeout = -1;
+            client.FollowRedirects = false;
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("X-User-Email", "benjamim@srmidia.com.br");
+            request.AddHeader("x-Api-Key", "kKkPwJKVpSRg7mNF93dM");
+            request.AddHeader("x-accountmanager-key", "vd4MLTDndq");
+            request.AddHeader("Accept", "application/json;charset=UTF-8");
+            request.AddHeader("Content-Type", "application/json");
+            request.AddParameter("application/json,text/plain", ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
 
             return string.Empty;
