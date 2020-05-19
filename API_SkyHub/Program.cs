@@ -1,6 +1,7 @@
 ﻿using API_SkyHub.Models;
 using Newtonsoft.Json;
 using RestSharp;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using static API_SkyHub.Models.POST_ProdutosCompleto;
@@ -15,6 +16,8 @@ namespace API_SkyHub
             //InserirProdutoSimples();
             //AlteracaoCabecario();
             //CriarPedidoStatusNew();
+            //AprovarStatusPedido();
+            //Pedido_Enviado();
         }
 
         public static string InserirProdutoCompleto()
@@ -187,7 +190,7 @@ namespace API_SkyHub
         {
             var bodySend = new Models.POST_CriarPedidoStatusNew.RootObjects();
             bodySend.order = new POST_CriarPedidoStatusNew.Order();
-            bodySend.order.channel = "Teste C#";
+            bodySend.order.channel = "Americanas";
             bodySend.order.items = new List<Models.POST_CriarPedidoStatusNew.Item>();
             var item = new Models.POST_CriarPedidoStatusNew.Item();
             item.id = "350";
@@ -246,16 +249,57 @@ namespace API_SkyHub
 
         public static string AprovarStatusPedido()
         {
-            var client = new RestClient("https://api.skyhub.com.br/orders/Marketplace-1589895935896/approval");
-            client.Timeout = -1;
-            client.FollowRedirects = false;
+            string canal = "Americanas";
+            string codigo = "1589914839137";
+
+            var status = new POST_AprovarPedidoStatus.RootObjects();
+            status.status = "payment_received";
+
+            var client = new RestClient("https://api.skyhub.com.br/orders/" + $"{canal}" + "-" + $"{codigo}/approval");
             var request = new RestRequest(Method.POST);
             request.AddHeader("X-User-Email", "benjamim@srmidia.com.br");
             request.AddHeader("x-Api-Key", "kKkPwJKVpSRg7mNF93dM");
             request.AddHeader("x-accountmanager-key", "vd4MLTDndq");
             request.AddHeader("Accept", "application/json;charset=UTF-8");
             request.AddHeader("Content-Type", "application/json");
-            request.AddParameter("application/json,text/plain", ParameterType.RequestBody);
+            request.AddParameter("application/json,text/plain", JsonConvert.SerializeObject(status, Newtonsoft.Json.Formatting.None,
+                new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }), ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+
+            return string.Empty;
+        }
+
+        public static string Pedido_Enviado()
+        {
+            string canal = "Americanas";
+            string codigo = "1589914839137";
+
+            var bodySend = new Models.POST_PedidoEnviado.RootObjects();
+            bodySend.status = "order_shipped";
+            bodySend.shipment = new POST_PedidoEnviado.Shipment();
+            bodySend.shipment.code = $"{canal}-{codigo}";
+            bodySend.shipment.delivered_carrier_date = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssK"));
+            bodySend.shipment.items = new List<Models.POST_PedidoEnviado.Item>();
+            var item = new Models.POST_PedidoEnviado.Item();
+            item.sku = "350";
+            item.qty = 1;
+            bodySend.shipment.items.Add(item);
+
+            bodySend.shipment.track = new POST_PedidoEnviado.Track();
+            bodySend.shipment.track.code = "BR1321830198302DR";
+            bodySend.shipment.track.carrier = "Correios";
+            bodySend.shipment.track.method = "SEDEX";
+            bodySend.shipment.track.url = "www.correios.com.br";
+
+            var client = new RestClient("https://api.skyhub.com.br/orders/" + $"{canal}" + "-" + $"{codigo}/shipments");
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("X-User-Email", "benjamim@srmidia.com.br");
+            request.AddHeader("x-Api-Key", "kKkPwJKVpSRg7mNF93dM");
+            request.AddHeader("x-accountmanager-key", "vd4MLTDndq");
+            request.AddHeader("Accept", "application/json;charset=UTF-8");
+            request.AddHeader("Content-Type", "application/json");
+            request.AddParameter("application/json,text/plain", JsonConvert.SerializeObject(bodySend, Newtonsoft.Json.Formatting.None,
+                              new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }), ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
 
             return string.Empty;

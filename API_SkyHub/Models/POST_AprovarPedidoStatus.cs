@@ -1,6 +1,6 @@
 ﻿namespace API_SkyHub.Models
 {
-    public class AprovarPedidoStatus
+    public class POST_AprovarPedidoStatus
     {
         public class RootObjects
         {
