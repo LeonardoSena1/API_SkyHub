@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using static API_SkyHub.Models.POST_ProdutosCompleto;
 
 namespace API_SkyHub
@@ -18,6 +17,9 @@ namespace API_SkyHub
             //CriarPedidoStatusNew();
             //AprovarStatusPedido();
             //Pedido_Enviado();
+            //Pedido_Entregue();
+            //Pedido_Deletar();
+            //Pedido_Cancelado();
         }
 
         public static string InserirProdutoCompleto()
@@ -300,6 +302,67 @@ namespace API_SkyHub
             request.AddHeader("Content-Type", "application/json");
             request.AddParameter("application/json,text/plain", JsonConvert.SerializeObject(bodySend, Newtonsoft.Json.Formatting.None,
                               new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }), ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+
+            return string.Empty;
+        }
+
+        public static string Pedido_Entregue()
+        {
+            string canal = "Americanas";
+            string codigo = "1589914839137";
+
+            var status = new POST_AprovarPedidoStatus.RootObjects();
+            status.status = "complete";
+
+            var client = new RestClient("https://api.skyhub.com.br/orders/" + $"{canal}" + "-" + $"{codigo}/delivery");
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("X-User-Email", "benjamim@srmidia.com.br");
+            request.AddHeader("x-Api-Key", "kKkPwJKVpSRg7mNF93dM");
+            request.AddHeader("x-accountmanager-key", "vd4MLTDndq");
+            request.AddHeader("Accept", "application/json;charset=UTF-8");
+            request.AddHeader("Content-Type", "application/json");
+            request.AddParameter("application/json,text/plain", JsonConvert.SerializeObject(status, Newtonsoft.Json.Formatting.None,
+                new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }), ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+
+            return string.Empty;
+        }
+
+        public static string Pedido_Deletar()
+        {
+            string canal = "Americanas";
+            string codigo = "1589914839137";
+
+            var client = new RestClient("https://api.skyhub.com.br/queues/orders/" + $"{canal}" + "-" + $"{codigo}");
+            var request = new RestRequest(Method.DELETE);
+            request.AddHeader("X-User-Email", "benjamim@srmidia.com.br");
+            request.AddHeader("x-Api-Key", "kKkPwJKVpSRg7mNF93dM");
+            request.AddHeader("x-accountmanager-key", "vd4MLTDndq");
+            request.AddHeader("Accept", "application/json;charset=UTF-8");
+            request.AddHeader("Content-Type", "application/json");
+            IRestResponse response = client.Execute(request);
+
+            return string.Empty;
+        }
+
+        public static string Pedido_Cancelado()
+        {
+            string canal = "Americanas";
+            string codigo = "1589914839137";
+
+            var status = new POST_AprovarPedidoStatus.RootObjects();
+            status.status = "order_canceled";
+
+            var client = new RestClient("https://api.skyhub.com.br/orders/" + $"{canal}" + "-" + $"{codigo}/cancel");
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("X-User-Email", "benjamim@srmidia.com.br");
+            request.AddHeader("x-Api-Key", "kKkPwJKVpSRg7mNF93dM");
+            request.AddHeader("x-accountmanager-key", "vd4MLTDndq");
+            request.AddHeader("Accept", "application/json;charset=UTF-8");
+            request.AddHeader("Content-Type", "application/json");
+            request.AddParameter("application/json,text/plain", JsonConvert.SerializeObject(status, Newtonsoft.Json.Formatting.None,
+                            new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }), ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
 
             return string.Empty;
